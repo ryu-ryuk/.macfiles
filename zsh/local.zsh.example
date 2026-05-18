@@ -1,16 +1,5 @@
 # Copy to ~/.config/zsh/local.zsh and fill in your own values.
-# This file is sourced from ~/.zshrc but never committed to the dotfiles repo.
+# Sourced from ~/.zshrc, never committed.
 
-# ── pop (charmbracelet email cli) ────────────────────────────────────
-# export POP_SMTP_HOST=smtp.gmail.com
-# export POP_SMTP_PORT=587
-# export POP_SMTP_USERNAME=you@example.com
-# export POP_SMTP_PASSWORD=app-password-here
-# export POP_FROM=you@example.com
-# export POP_SIGNATURE="from Your Name"
-
-# ── SSH shortcuts ────────────────────────────────────────────────────
 # alias myhost-ssh='ssh -i ~/.ssh/your_key user@host'
-
-# ── Work / per-machine aliases ───────────────────────────────────────
 # alias work-thing="$HOME/path/to/script.sh"

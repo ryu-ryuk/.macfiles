@@ -1,18 +1,13 @@
 #!/usr/bin/env bash
 
-# Anime MOTD — random quote + meta line, Catppuccin Mocha
-# Picks a random accent color each invocation so the prompt feels alive.
-
-# ── Catppuccin Mocha palette ─────────────────────────────────────────
 TEXT=$'\033[38;2;205;214;244m'
-SUBTEXT=$'\033[38;2;166;173;200m'   # subtext0
-OVERLAY=$'\033[38;2;108;112;134m'   # overlay0
-SURFACE=$'\033[38;2;69;71;90m'      # surface1
+SUBTEXT=$'\033[38;2;166;173;200m'
+OVERLAY=$'\033[38;2;108;112;134m'
+SURFACE=$'\033[38;2;69;71;90m'
 RESET=$'\033[0m'
 ITALIC=$'\033[3m'
 BOLD=$'\033[1m'
 
-# Rotating accent — one of the Mocha "pastel" hues
 accents=(
   $'\033[38;2;203;166;247m'  # mauve
   $'\033[38;2;245;194;231m'  # pink
@@ -27,7 +22,6 @@ accents=(
 )
 ACCENT="${accents[$((RANDOM % ${#accents[@]}))]}"
 
-# ── Quotes ───────────────────────────────────────────────────────────
 quotes=(
   '"The world is not beautiful, therefore it is."|Kino no Tabi'
   '"A lesson without pain is meaningless."|Edward Elric'
@@ -56,22 +50,18 @@ quotes=(
   '"Knowing you are different is only the beginning. If you accept these differences you will be able to get past them and grow even closer."|Miss Kobayashi'
 )
 
-# Pick one
 entry="${quotes[$((RANDOM % ${#quotes[@]}))]}"
 quote="${entry%|*}"
 author="${entry##*|}"
 
-# ── Uptime (cross-platform: macOS + Linux) ───────────────────────────
 get_uptime() {
   if uptime -p >/dev/null 2>&1; then
     uptime -p | sed 's/^up //'
   else
-    # macOS: " 12:39  up 2 days, 22:23, 5 users, load averages: ..."
     uptime | sed -E 's/^[^,]*up *//; s/, *[0-9]+ users?.*$//; s/, *load averages?:.*$//'
   fi
 }
 
-# ── Greeting by hour ─────────────────────────────────────────────────
 hour=$(date +%H)
 if   (( hour < 5  )); then greet="late night"
 elif (( hour < 12 )); then greet="morning"
@@ -80,7 +70,6 @@ elif (( hour < 21 )); then greet="evening"
 else                        greet="night"
 fi
 
-# ── Render ───────────────────────────────────────────────────────────
 user="${USER:-$(whoami)}"
 time_now=$(date '+%H:%M')
 up=$(get_uptime)

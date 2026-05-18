@@ -1,19 +1,14 @@
-
-# ── Environment ──────────────────────────────────────────────────────
 export EDITOR="nvim"
 export _ZO_DOCTOR=0
 export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 export NVM_DIR="$HOME/.nvm"
 export BUN_INSTALL="$HOME/.bun"
-
 export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$(go env GOPATH 2>/dev/null)/bin:$PATH"
-
 export GPG_TTY=$(tty)
 
-# ── Machine-local secrets / aliases (gitignored) ─────────────────────
 [[ -f ~/.config/zsh/local.zsh ]] && source ~/.config/zsh/local.zsh
 
-# ── Zinit ────────────────────────────────────────────────────────────
+# zinit
 if [ ! -d "$ZINIT_HOME" ]; then
     mkdir -p "$(dirname $ZINIT_HOME)"
     git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
@@ -31,18 +26,13 @@ zinit snippet OMZP::kubectl
 zinit snippet OMZP::command-not-found
 zinit light zsh-users/zsh-history-substring-search
 
-# ── History ──────────────────────────────────────────────────────────
+# history
 export HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_REDUCE_BLANKS
-setopt GLOBDOTS
-setopt INTERACTIVE_COMMENTS
+setopt INC_APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS GLOBDOTS INTERACTIVE_COMMENTS
 
-# ── Completion ───────────────────────────────────────────────────────
+# completion
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
   compinit
@@ -56,7 +46,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-# ── fzf ──────────────────────────────────────────────────────────────
+# fzf
 source <(fzf --zsh)
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -64,10 +54,9 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-ran
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --icons {} | head -50'"
 export FZF_DEFAULT_OPTS="--height=50% --border=rounded --info=inline --bind=ctrl-/:toggle-preview --color=bg:#1e1e2e,bg+:#313244,fg:#cdd6f4,fg+:#cdd6f4,hl:#f38ba8,hl+:#f38ba8,info:#cba6f7,prompt:#cba6f7,pointer:#f5e0dc,marker:#b4befe,spinner:#f5e0dc,header:#cba6f7,border:#313244"
 
-# ── bat ──────────────────────────────────────────────────────────────
 export BAT_THEME="Catppuccin Mocha"
 
-# ── nvm (lazy-load — only if nvm is installed) ───────────────────────
+# nvm — lazy load
 if [ -d "$NVM_DIR" ]; then
   nvm_lazy_load() {
     for _f in node npm npx nvm; do
@@ -82,16 +71,11 @@ if [ -d "$NVM_DIR" ]; then
   nvm()  { nvm_lazy_load nvm  "$@"; }
 fi
 
-# ── zoxide ───────────────────────────────────────────────────────────
 eval "$(zoxide init --cmd cd zsh)"
-
-# ── atuin (shell history — Ctrl+R for fuzzy search) ──────────────────
 eval "$(atuin init zsh --disable-up-arrow)"
-
-# ── direnv (auto-load .envrc per directory) ───────────────────────────
 eval "$(direnv hook zsh)"
 
-# ── Key bindings ─────────────────────────────────────────────────────
+# keys
 bindkey -e
 bindkey '^W' backward-kill-word
 bindkey '^[[H' beginning-of-line
@@ -110,10 +94,9 @@ bindkey '^[[B' history-substring-search-down
 bindkey '\eb' backward-word
 bindkey '\ef' forward-word
 
-# ── Prompt ───────────────────────────────────────────────────────────
 source ~/.config/zsh/prompt.zsh
 
-# ── Aliases ──────────────────────────────────────────────────────────
+# aliases
 alias ..='cd ..'
 alias ...='cd ../..'
 alias c='clear'
@@ -139,8 +122,6 @@ alias gp='git push'
 alias gl='git pull'
 alias gd='git diff'
 alias gco='git checkout'
-
-# git extras
 alias gb='git branch'
 alias gba='git branch -a'
 alias glog='git log --oneline --graph --decorate --all'
@@ -149,7 +130,7 @@ alias gundo='git reset --soft HEAD~1'
 alias grb='git rebase'
 alias grbc='git rebase --continue'
 
-# utilities
+# misc
 alias reload='source ~/.zshrc'
 alias ports='lsof -i -P -n | grep LISTEN'
 alias myip='curl -s -4 ifconfig.me && echo'
@@ -161,8 +142,8 @@ alias py='python3'
 alias pip='pip3'
 alias h='tldr'
 
-# ── Functions ────────────────────────────────────────────────────────
 mkcd() { mkdir -p "$1" && cd "$1"; }
+
 extract() {
   case "$1" in
     *.tar.bz2) tar xjf "$1" ;;
@@ -173,10 +154,11 @@ extract() {
     *)         echo "Unknown format: $1" ;;
   esac
 }
+
 gi() { curl -sL "https://www.gitignore.io/api/$1"; }
 
-# ── yazi (cd on exit) ────────────────────────────────────────────────
-function y() {
+# yazi — cd to selected dir on exit
+y() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
     yazi "$@" --cwd-file="$tmp"
     IFS= read -r -d '' cwd < "$tmp"
@@ -184,14 +166,9 @@ function y() {
     rm -f -- "$tmp"
 }
 
-# ── bun ──────────────────────────────────────────────────────────────
 . "$HOME/.local/bin/env"
-[ -s "/Users/ryu/.bun/_bun" ] && source "/Users/ryu/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# ── iTerm2 shell integration ──────────────────────────────────────────
 test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
 
-# ── Anime MOTD (interactive shells only) ─────────────────────────────
-if [[ -o interactive ]] && [[ -x "$HOME/.config/scripts/anime-motd.sh" ]]; then
-  "$HOME/.config/scripts/anime-motd.sh"
-fi
+[[ -o interactive ]] && [[ -x ~/.config/scripts/anime-motd.sh ]] && ~/.config/scripts/anime-motd.sh

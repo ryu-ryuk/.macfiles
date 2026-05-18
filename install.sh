@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
-# Symlink dotfiles into place. Safe to re-run.
-# Usage: ./install.sh
-
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# (src in repo) => (target on disk)
 links=(
   "zsh/zshrc:$HOME/.zshrc"
   "zsh/prompt.zsh:$HOME/.config/zsh/prompt.zsh"
@@ -46,18 +42,16 @@ for entry in "${links[@]}"; do
   link_file "${entry%%:*}" "${entry#*:}"
 done
 
-# Create empty local.zsh from example if it doesn't exist
 if [[ ! -e $HOME/.config/zsh/local.zsh ]]; then
   mkdir -p "$HOME/.config/zsh"
   cp "$REPO/zsh/local.zsh.example" "$HOME/.config/zsh/local.zsh"
-  echo "new:  ~/.config/zsh/local.zsh (from example — edit to add secrets)"
+  echo "new:  ~/.config/zsh/local.zsh"
 fi
 
-# hushlogin — suppresses macOS "Last login" / mail banner
 if [[ ! -e $HOME/.hushlogin ]]; then
   touch "$HOME/.hushlogin"
   echo "new:  ~/.hushlogin"
 fi
 
 echo
-echo "Done. Open a new shell or 'source ~/.zshrc' to apply."
+echo "Done. Open a new shell or 'source ~/.zshrc'."
