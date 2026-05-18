@@ -1,5 +1,0 @@
-# Copy to ~/.config/zsh/local.zsh and fill in your own values.
-# Sourced from ~/.zshrc, never committed.
-
-# alias myhost-ssh='ssh -i ~/.ssh/your_key user@host'
-# alias work-thing="$HOME/path/to/script.sh"

@@ -6,8 +6,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$(go env GOPATH 2>/dev/null)/bin:$PATH"
 export GPG_TTY=$(tty)
 
-[[ -f ~/.config/zsh/local.zsh ]] && source ~/.config/zsh/local.zsh
-
 # zinit
 if [ ! -d "$ZINIT_HOME" ]; then
     mkdir -p "$(dirname $ZINIT_HOME)"
@@ -141,6 +139,9 @@ alias pn='pnpm'
 alias py='python3'
 alias pip='pip3'
 alias h='tldr'
+
+# work
+alias odoo="$HOME/omnidim/run_odoo.sh"
 
 mkcd() { mkdir -p "$1" && cd "$1"; }
 

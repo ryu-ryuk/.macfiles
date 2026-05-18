@@ -6,9 +6,8 @@ My MacBook setup. `install.sh` symlinks everything into `$HOME`.
 .macfiles/
 ├── install.sh
 ├── zsh/
-│   ├── zshrc              -> ~/.zshrc
-│   ├── prompt.zsh         -> ~/.config/zsh/prompt.zsh
-│   └── local.zsh.example  template for ~/.config/zsh/local.zsh (gitignored)
+│   ├── zshrc       -> ~/.zshrc
+│   └── prompt.zsh  -> ~/.config/zsh/prompt.zsh
 ├── scripts/
 │   └── anime-motd.sh      -> ~/.config/scripts/anime-motd.sh
 ├── iterm2/
@@ -25,7 +24,7 @@ cd ~/.macfiles
 ./install.sh
 ```
 
-Then put SSH host aliases and anything else machine-specific into `~/.config/zsh/local.zsh` (it's sourced by `.zshrc`, ignored by git). Open a new shell.
+Then open a new shell.
 
 For iTerm2: see `iterm2/README.md`.
 
@@ -46,4 +45,4 @@ Catppuccin Mocha. Everywhere.
 
 ---
 
-Some of these files were yak-shaved alongside [Claude Code](https://claude.com/claude-code) — the rubber duck that talks back. The vibes are mine, any cursed regex is half theirs.
+Some of these files were yak-shaved alongside [Claude Code](https://claude.com/claude-code).

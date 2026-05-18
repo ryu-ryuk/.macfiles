@@ -42,12 +42,6 @@ for entry in "${links[@]}"; do
   link_file "${entry%%:*}" "${entry#*:}"
 done
 
-if [[ ! -e $HOME/.config/zsh/local.zsh ]]; then
-  mkdir -p "$HOME/.config/zsh"
-  cp "$REPO/zsh/local.zsh.example" "$HOME/.config/zsh/local.zsh"
-  echo "new:  ~/.config/zsh/local.zsh"
-fi
-
 if [[ ! -e $HOME/.hushlogin ]]; then
   touch "$HOME/.hushlogin"
   echo "new:  ~/.hushlogin"
