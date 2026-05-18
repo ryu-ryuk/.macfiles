@@ -1,0 +1,21 @@
+# Local secrets — never commit
+zsh/local.zsh
+**/local.zsh
+**/.env
+**/.env.local
+**/*.secret
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# iTerm2 — only the exported plist is tracked; ignore caches
+iterm2/AppSupport/
+iterm2/DynamicProfiles.cache
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,197 @@
+
+# ── Environment ──────────────────────────────────────────────────────
+export EDITOR="nvim"
+export _ZO_DOCTOR=0
+export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+export NVM_DIR="$HOME/.nvm"
+export BUN_INSTALL="$HOME/.bun"
+
+export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$(go env GOPATH 2>/dev/null)/bin:$PATH"
+
+export GPG_TTY=$(tty)
+
+# ── Machine-local secrets / aliases (gitignored) ─────────────────────
+[[ -f ~/.config/zsh/local.zsh ]] && source ~/.config/zsh/local.zsh
+
+# ── Zinit ────────────────────────────────────────────────────────────
+if [ ! -d "$ZINIT_HOME" ]; then
+    mkdir -p "$(dirname $ZINIT_HOME)"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+source "${ZINIT_HOME}/zinit.zsh"
+
+zinit light Aloxaf/fzf-tab
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+zinit snippet OMZP::sudo
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::command-not-found
+zinit light zsh-users/zsh-history-substring-search
+
+# ── History ──────────────────────────────────────────────────────────
+export HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt GLOBDOTS
+setopt INTERACTIVE_COMMENTS
+
+# ── Completion ───────────────────────────────────────────────────────
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
+export LS_COLORS="$(vivid generate snazzy 2>/dev/null)"
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+
+# ── fzf ──────────────────────────────────────────────────────────────
+source <(fzf --zsh)
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:200 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --icons {} | head -50'"
+export FZF_DEFAULT_OPTS="--height=50% --border=rounded --info=inline --bind=ctrl-/:toggle-preview --color=bg:#1e1e2e,bg+:#313244,fg:#cdd6f4,fg+:#cdd6f4,hl:#f38ba8,hl+:#f38ba8,info:#cba6f7,prompt:#cba6f7,pointer:#f5e0dc,marker:#b4befe,spinner:#f5e0dc,header:#cba6f7,border:#313244"
+
+# ── bat ──────────────────────────────────────────────────────────────
+export BAT_THEME="Catppuccin Mocha"
+
+# ── nvm (lazy-load — only if nvm is installed) ───────────────────────
+if [ -d "$NVM_DIR" ]; then
+  nvm_lazy_load() {
+    for _f in node npm npx nvm; do
+      typeset -f "$_f" >/dev/null 2>&1 && unset -f "$_f"
+    done
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ $# -gt 0 ] && command "$@"
+  }
+  node() { nvm_lazy_load node "$@"; }
+  npm()  { nvm_lazy_load npm  "$@"; }
+  npx()  { nvm_lazy_load npx  "$@"; }
+  nvm()  { nvm_lazy_load nvm  "$@"; }
+fi
+
+# ── zoxide ───────────────────────────────────────────────────────────
+eval "$(zoxide init --cmd cd zsh)"
+
+# ── atuin (shell history — Ctrl+R for fuzzy search) ──────────────────
+eval "$(atuin init zsh --disable-up-arrow)"
+
+# ── direnv (auto-load .envrc per directory) ───────────────────────────
+eval "$(direnv hook zsh)"
+
+# ── Key bindings ─────────────────────────────────────────────────────
+bindkey -e
+bindkey '^W' backward-kill-word
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[4~' end-of-line
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+bindkey '^[[3;5~' kill-word
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
+bindkey "^C" interrupt
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '\eb' backward-word
+bindkey '\ef' forward-word
+
+# ── Prompt ───────────────────────────────────────────────────────────
+source ~/.config/zsh/prompt.zsh
+
+# ── Aliases ──────────────────────────────────────────────────────────
+alias ..='cd ..'
+alias ...='cd ../..'
+alias c='clear'
+alias clip='pbcopy'
+alias gpgkeys='gpg --list-secret-keys --keyid-format LONG'
+alias ls='eza -aH --icons=auto --color=always --group-directories-first'
+alias l='eza -alhH --icons=auto --color=always --time-style=long-iso --git --group-directories-first --sort=modified'
+alias lr='eza -alhH --icons=auto --color=always --sort=modified --reverse --git --group-directories-first'
+alias t='eza --tree -al --icons=auto --color=always --level=4 --git-ignore -I ".DS_Store|*.tmp|node_modules"'
+alias mkdir='mkdir -p'
+alias vi='nvim'
+alias v='nvim'
+alias vim='nvim'
+alias history='history 1'
+alias cat='bat'
+alias lg='lazygit'
+
+# git
+alias gs='git status -sb'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+alias gco='git checkout'
+
+# git extras
+alias gb='git branch'
+alias gba='git branch -a'
+alias glog='git log --oneline --graph --decorate --all'
+alias gst='git stash'
+alias gundo='git reset --soft HEAD~1'
+alias grb='git rebase'
+alias grbc='git rebase --continue'
+
+# utilities
+alias reload='source ~/.zshrc'
+alias ports='lsof -i -P -n | grep LISTEN'
+alias myip='curl -s -4 ifconfig.me && echo'
+alias weather='curl -s wttr.in/?format=3'
+alias serve='python3 -m http.server'
+alias df='df -h'
+alias pn='pnpm'
+alias py='python3'
+alias pip='pip3'
+alias h='tldr'
+
+# ── Functions ────────────────────────────────────────────────────────
+mkcd() { mkdir -p "$1" && cd "$1"; }
+extract() {
+  case "$1" in
+    *.tar.bz2) tar xjf "$1" ;;
+    *.tar.gz)  tar xzf "$1" ;;
+    *.tar.xz)  tar xJf "$1" ;;
+    *.zip)     unzip "$1" ;;
+    *.7z)      7z x "$1" ;;
+    *)         echo "Unknown format: $1" ;;
+  esac
+}
+gi() { curl -sL "https://www.gitignore.io/api/$1"; }
+
+# ── yazi (cd on exit) ────────────────────────────────────────────────
+function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+}
+
+# ── bun ──────────────────────────────────────────────────────────────
+. "$HOME/.local/bin/env"
+[ -s "/Users/ryu/.bun/_bun" ] && source "/Users/ryu/.bun/_bun"
+
+# ── iTerm2 shell integration ──────────────────────────────────────────
+test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
+
+# ── Anime MOTD (interactive shells only) ─────────────────────────────
+if [[ -o interactive ]] && [[ -x "$HOME/.config/scripts/anime-motd.sh" ]]; then
+  "$HOME/.config/scripts/anime-motd.sh"
+fi
