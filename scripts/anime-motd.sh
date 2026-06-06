@@ -62,7 +62,7 @@ get_uptime() {
   fi
 }
 
-hour=$(date +%H)
+hour=$((10#$(date +%H)))
 if   (( hour < 5  )); then greet="late night"
 elif (( hour < 12 )); then greet="morning"
 elif (( hour < 17 )); then greet="afternoon"
