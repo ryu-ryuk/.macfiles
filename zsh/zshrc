@@ -1,3 +1,4 @@
+# ---------------------------------------------------------------- env
 export EDITOR="nvim"
 export _ZO_DOCTOR=0
 export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -5,8 +6,10 @@ export NVM_DIR="$HOME/.nvm"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$HOME/.local/bin:$BUN_INSTALL/bin:$(go env GOPATH 2>/dev/null)/bin:$PATH"
 export GPG_TTY=$(tty)
+export BAT_THEME="Catppuccin Mocha"
+path=("$HOME/bin" $path)
 
-# zinit
+# -------------------------------------------------------------- zinit
 if [ ! -d "$ZINIT_HOME" ]; then
     mkdir -p "$(dirname $ZINIT_HOME)"
     git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
@@ -24,13 +27,13 @@ zinit snippet OMZP::kubectl
 zinit snippet OMZP::command-not-found
 zinit light zsh-users/zsh-history-substring-search
 
-# history
+# ------------------------------------------------------------ history
 export HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000
 setopt INC_APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS GLOBDOTS INTERACTIVE_COMMENTS
 
-# completion
+# --------------------------------------------------------- completion
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
   compinit
@@ -44,7 +47,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-# fzf
+# ---------------------------------------------------------------- fzf
 source <(fzf --zsh)
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -52,9 +55,7 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-ran
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --icons {} | head -50'"
 export FZF_DEFAULT_OPTS="--height=50% --border=rounded --info=inline --bind=ctrl-/:toggle-preview --color=bg:#1e1e2e,bg+:#313244,fg:#cdd6f4,fg+:#cdd6f4,hl:#f38ba8,hl+:#f38ba8,info:#cba6f7,prompt:#cba6f7,pointer:#f5e0dc,marker:#b4befe,spinner:#f5e0dc,header:#cba6f7,border:#313244"
 
-export BAT_THEME="Catppuccin Mocha"
-
-# nvm — lazy load
+# ---------------------------------------------------- nvm (lazy load)
 if [ -d "$NVM_DIR" ]; then
   nvm_lazy_load() {
     for _f in node npm npx nvm; do
@@ -69,11 +70,15 @@ if [ -d "$NVM_DIR" ]; then
   nvm()  { nvm_lazy_load nvm  "$@"; }
 fi
 
+# --------------------------------------------------------- tool hooks
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(direnv hook zsh)"
+. "$HOME/.local/bin/env"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
 
-# keys
+# --------------------------------------------------------------- keys
 bindkey -e
 bindkey '^W' backward-kill-word
 bindkey '^[[H' beginning-of-line
@@ -92,9 +97,10 @@ bindkey '^[[B' history-substring-search-down
 bindkey '\eb' backward-word
 bindkey '\ef' forward-word
 
-source ~/.config/zsh/prompt.zsh
+# ------------------------------------------------------------- prompt
+eval "$(starship init zsh)"
 
-# aliases
+# ------------------------------------------------------------ aliases
 alias ..='cd ..'
 alias ...='cd ../..'
 alias c='clear'
@@ -143,6 +149,13 @@ alias h='tldr'
 # work
 alias odoo="$HOME/omnidim/run_odoo.sh"
 
+# claude code (claude-personal/cap = separate account/config from work)
+alias claude-personal='CLAUDE_CONFIG_DIR=~/.claude-personal claude'
+alias cap='CLAUDE_CONFIG_DIR=~/.claude-personal claude'
+alias cc='claude'
+alias ccc='claude --continue'
+
+# ---------------------------------------------------------- functions
 mkcd() { mkdir -p "$1" && cd "$1"; }
 
 extract() {
@@ -151,14 +164,14 @@ extract() {
     *.tar.gz)  tar xzf "$1" ;;
     *.tar.xz)  tar xJf "$1" ;;
     *.zip)     unzip "$1" ;;
-    *.7z)      7z x "$1" ;;
+    *.7z)      7zz x "$1" ;;
     *)         echo "Unknown format: $1" ;;
   esac
 }
 
 gi() { curl -sL "https://www.gitignore.io/api/$1"; }
 
-# yazi — cd to selected dir on exit
+# yazi: cd to selected dir on exit
 y() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
     yazi "$@" --cwd-file="$tmp"
@@ -167,9 +180,9 @@ y() {
     rm -f -- "$tmp"
 }
 
-. "$HOME/.local/bin/env"
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+# ------------------------------------------------------ machine-local
+# secrets/hosts (ssh aliases etc), not tracked in macfiles
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 
-test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
-
-[[ -o interactive ]] && [[ -x ~/.config/scripts/anime-motd.sh ]] && ~/.config/scripts/anime-motd.sh
+# ---------------------------------------------------------------- motd
+# [[ -o interactive ]] && [[ -x ~/.config/scripts/anime-motd.sh ]] && ~/.config/scripts/anime-motd.sh
