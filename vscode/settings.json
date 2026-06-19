@@ -1,0 +1,296 @@
+{
+  "editor.fontSize": 18,
+  "editor.fontFamily": "'Anthrosevka Mono', 'JetBrainsMono Nerd Font Mono', 'SF Mono', 'Google Sans Code', 'Cascadia Mono NF', 'CommitMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+  // "editor.fontLigatures": "'calt', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'ss10'",
+  "editor.lineHeight": 1.45,
+  "editor.fontWeight": "400",
+  "terminal.integrated.fontFamily": "'Anthrosevka Mono', 'JetBrainsMono Nerd Font Mono', monospace",
+  "editor.cursorStyle": "line-thin",
+  "editor.cursorBlinking": "solid",
+  "editor.formatOnSave": false,
+  "editor.autoIndentOnPaste": true,
+  "editor.experimental.preferTreeSitter.regex": true,
+  "editor.experimental.asyncTokenizationVerification": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
+    "source.fixAll": "never",
+    "source.fixAll.ruff": "never"
+  },
+  "python.terminal.useEnvFile": true,
+  "editor.minimap.enabled": false,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.size": "fit",
+  "editor.minimap.showSlider": "always",
+
+  "files.trimTrailingWhitespace": false,
+  "files.insertFinalNewline": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/out": true,
+    "**/target": true,
+    "**/CLAUDE.md": true,
+    "**/obj": true,
+    "**/.venv": true,
+    "**/venv": true
+  },
+  "search.exclude": {
+    "**/.venv": true
+  },
+  "explorer.confirmDelete": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorCustomizations": {},
+  "workbench.activityBar.location": "bottom",
+  "workbench.statusBar.visible": false,
+  "workbench.layoutControl.enabled": false,
+  "workbench.navigationControl.enabled": false,
+  "workbench.editor.enablePreview": false,
+  "window.menuBarVisibility": "compact",
+  "window.commandCenter": false,
+
+  "terminal.integrated.defaultProfile.linux": "zsh",
+
+  "git.autofetch": true,
+  "git.suggestSmartCommit": false,
+  "gitlens.currentLine.enabled": true,
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-5.1",
+  "gitlens.views.commitDetails.files.layout": "tree",
+  "diffEditor.ignoreTrimWhitespace": false,
+
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "githubPullRequests.queries": [
+    {
+      "label": "Copilot on My Behalf",
+      "query": "repo:${owner}/${repository} is:open author:copilot assignee:${user}"
+    },
+    {
+      "label": "Local Pull Request Branches",
+      "query": "default"
+    },
+    {
+      "label": "Waiting For My Review",
+      "query": "repo:${owner}/${repository} is:open review-requested:${user}"
+    },
+    {
+      "label": "Created By Me",
+      "query": "repo:${owner}/${repository} is:open author:${user}"
+    },
+    {
+      "label": "All Open",
+      "query": "default"
+    }
+  ],
+  "githubPullRequests.remotes": [
+    "origin",
+    "upstream",
+    "omd"
+  ],
+  "githubPullRequests.showPullRequestNumberInTree": true,
+  "githubPullRequests.useReviewMode": "auto",
+  "claudeCode.selectedModel": "default",
+  "claudeCode.useTerminal": true,
+  "chat.commandCenter.enabled": false,
+  "chat.viewSessions.orientation": "stacked",
+  "chat.agentsControl.enabled": false,
+  "python.formatting.provider": "none",
+  "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
+  "python.analysis.indexing": true,
+  "python.analysis.extraPaths": [
+    "./**/site-packages"
+  ],
+  "python.locatorPythonPaths": [
+    "**/.venv/bin/python",
+    "**/venv/bin/python"
+  ],
+  "python.terminal.activateEnvInSelectedTerminal": true,
+  "python.terminal.executeInFileDir": true,
+
+  // --- Ruff Extension ---
+  "ruff.format.enable": false,
+  "ruff.organizeImports": true,
+  "ruff.fixAll": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "ruff.codeAction.fixViolation.enable": false,
+
+  // --- Language Specific Overrides ---
+  "[python]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.defaultFormatter": null,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "never",
+      "source.fixAll.ruff": "never"
+    },
+    "diffEditor.ignoreTrimWhitespace": false
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+
+  // --- Miscellaneous ---
+  "cSpell.enabled": false,
+  "http.systemCertificatesNode": true,
+  "chat.editing.confirmEditRequestRetry": false,
+  "terminal.integrated.tabs.location": "left",
+  "[glimmer-js]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.foldingStrategy": "indentation"
+  },
+  "[glimmer-ts]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.foldingStrategy": "indentation"
+  },
+  "prettier.documentSelectors": [
+    "**/*.gts",
+    "**/*.gjs"
+  ],
+  "claudeCode.preferredLocation": "panel",
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.xlsx": "default"
+  },
+  "workbench.colorTheme": "Rosé Pine (no italics)",
+"git.confirmSync": false,
+"terminal.integrated.mouseWheelScrollSensitivity": 3,
+"workbench.startupEditor": "none",
+"accessibility.signals.lineHasBreakpoint": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.chatEditModifiedFile": {
+  "sound": "off"
+},
+"accessibility.signals.chatRequestSent": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.chatResponseReceived": {
+  "sound": "off"
+},
+"accessibility.signals.chatUserActionRequired": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.clear": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.codeActionApplied": {
+  "sound": "off"
+},
+"accessibility.signals.codeActionTriggered": {
+  "sound": "off"
+},
+"accessibility.signals.onDebugBreak": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.diffLineDeleted": {
+  "sound": "off"
+},
+"accessibility.signals.diffLineInserted": {
+  "sound": "off"
+},
+"accessibility.signals.diffLineModified": {
+  "sound": "off"
+},
+"accessibility.signals.editsKept": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.positionHasError": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.lineHasError": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.lineHasFoldedArea": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.lineHasInlineSuggestion": {
+  "sound": "off"
+},
+"accessibility.signals.nextEditSuggestion": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.noInlayHints": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.notebookCellCompleted": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.notebookCellFailed": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.progress": {
+  "sound": "off",
+  "announcement": "off"
+},
+"accessibility.signals.taskCompleted": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.taskFailed": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.terminalBell": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.terminalCommandFailed": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.terminalCommandSucceeded": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.terminalQuickFix": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.editsUndone": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.voiceRecordingStarted": {
+  "sound": "off"
+},
+"accessibility.signals.voiceRecordingStopped": {
+  "sound": "off"
+},
+"accessibility.signals.positionHasWarning": {
+  "sound": "off",
+  "announcement": "auto"
+},
+"accessibility.signals.lineHasWarning": {
+  "sound": "off",
+  "announcement": "auto"
+}
+}
