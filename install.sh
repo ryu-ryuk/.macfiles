@@ -7,6 +7,7 @@ links=(
   "zsh/zshrc:$HOME/.zshrc"
   "zsh/prompt.zsh:$HOME/.config/zsh/prompt.zsh"
   "scripts/anime-motd.sh:$HOME/.config/scripts/anime-motd.sh"
+  "vscode/settings.json:$HOME/Library/Application Support/Code/User/settings.json"
 )
 
 link_file() {
@@ -41,6 +42,22 @@ link_file() {
 for entry in "${links[@]}"; do
   link_file "${entry%%:*}" "${entry#*:}"
 done
+
+# Fonts: copy (not symlink) into ~/Library/Fonts; macOS font registration is
+# more reliable with real files than symlinks.
+if [[ -d $REPO/fonts ]]; then
+  mkdir -p "$HOME/Library/Fonts"
+  for f in "$REPO"/fonts/*.ttf; do
+    [[ -e $f ]] || continue
+    dst="$HOME/Library/Fonts/$(basename "$f")"
+    if [[ -f $dst ]]; then
+      echo "ok:   $dst"
+    else
+      cp "$f" "$dst"
+      echo "font: $dst"
+    fi
+  done
+fi
 
 if [[ ! -e $HOME/.hushlogin ]]; then
   touch "$HOME/.hushlogin"

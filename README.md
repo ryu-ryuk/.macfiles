@@ -13,6 +13,11 @@ My MacBook setup. `install.sh` symlinks everything into `$HOME`.
 ├── iterm2/
 │   ├── README.md          how to point iTerm2 here
 │   └── export.sh          snapshot the current iTerm2 plist
+├── vscode/
+│   └── settings.json -> ~/Library/Application Support/Code/User/settings.json
+├── fonts/                 copied into ~/Library/Fonts on install
+│   ├── AnthrosevkaMono-*.ttf
+│   └── OFL.txt            SIL OFL 1.1 license for the fonts
 └── bin/                   personal scripts, on PATH via zshrc
 ```
 
@@ -37,7 +42,7 @@ brew install fzf zoxide atuin direnv eza bat fd lazygit yazi neovim oven-sh/bun/
 brew install --cask iterm2
 ```
 
-The prompt uses Nerd Font glyphs (` ❯ 󰔚 ✘ ⇡ ⇣`), so pick a Nerd-patched font in iTerm2.
+The prompt uses Nerd Font glyphs (` ❯ 󰔚 ✘ ⇡ ⇣`), so pick a Nerd-patched font in your terminal. `install.sh` ships `Anthrosevka Mono` (a custom Iosevka build, SIL OFL 1.1, from [nanxstats/anthrosevka](https://github.com/nanxstats/anthrosevka)) into `~/Library/Fonts`; it carries Nerd glyphs.
 
 ## Theme
 
